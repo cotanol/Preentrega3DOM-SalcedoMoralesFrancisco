@@ -2,6 +2,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // Almacenamos los productos del carrito en un array
     let productosEnCarrito = JSON.parse(localStorage.getItem("productosCarrito")) || [];
 
+    // Detectar si estamos en la página de productos (subcarpeta pages) o en la raíz
+    const isInProductos = window.location.pathname.includes('/pages/');
+    const rutaBase = isInProductos ? '../img/' : './img/';
+
     // Mostrar el número de productos en el carrito al cargar la página
     actualizarNumeroCarrito();
 
@@ -30,7 +34,10 @@ document.addEventListener("DOMContentLoaded", () => {
             const idProducto = boton.getAttribute("data-id");
             const nombreProducto = boton.getAttribute("data-nombre");
             const precioProducto = boton.getAttribute("data-precio");
-            const imgProducto = boton.getAttribute("data-img");
+            let imgProducto = boton.getAttribute("data-img");
+
+            // Ajustar la ruta de la imagen con la base adecuada
+            imgProducto = rutaBase + imgProducto;
 
             // Agregar el producto al carrito
             agregarAlCarrito(idProducto, nombreProducto, precioProducto, imgProducto);
