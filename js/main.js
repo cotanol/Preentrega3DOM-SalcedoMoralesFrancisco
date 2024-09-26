@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Almacenamos los productos del carrito en un array
     let productosEnCarrito = JSON.parse(localStorage.getItem("productosCarrito")) || [];
 
-    // Detectar si estamos en la página de productos (subcarpeta pages) o en la raíz
+    // Detectar si estamos en la página de productos (dentro de la carpeta 'pages') o en la raíz
     const isInProductos = window.location.pathname.includes('/pages/');
     const rutaBase = isInProductos ? '../img/' : './img/';
 
