@@ -3,8 +3,16 @@ document.addEventListener("DOMContentLoaded", () => {
     let productosEnCarrito = JSON.parse(localStorage.getItem("productosCarrito")) || [];
 
     // Detectar si estamos en la página de productos (dentro de la carpeta 'pages') o en la raíz
-    const isInProductos = window.location.pathname.includes('/pages/');
-    const rutaBase = isInProductos ? '../img/' : './img/';
+    const pathName = window.location.pathname;
+    let rutaBase = '';
+
+    // Si estamos en el index.html o en la raíz, utilizamos './img/'
+    if (pathName.includes('index.html') || pathName === "/") {
+        rutaBase = './img/';
+    } else if (pathName.includes('/pages/')) {
+        // Si estamos en la carpeta pages, utilizamos '../img/'
+        rutaBase = '../img/';
+    }
 
     // Mostrar el número de productos en el carrito al cargar la página
     actualizarNumeroCarrito();
