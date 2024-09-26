@@ -44,11 +44,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const precioProducto = boton.getAttribute("data-precio");
             let imgProducto = boton.getAttribute("data-img");
 
-            // Ajustar la ruta de la imagen con la base adecuada
-            imgProducto = rutaBase + imgProducto;
+            // Extraer solo el nombre del archivo de la imagen para guardar en localStorage
+            const imgNombre = imgProducto.split('/').pop();
 
             // Agregar el producto al carrito
-            agregarAlCarrito(idProducto, nombreProducto, precioProducto, imgProducto);
+            agregarAlCarrito(idProducto, nombreProducto, precioProducto, imgNombre);
         });
     });
 
@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 id,
                 nombre,
                 precio: parseFloat(precio),
-                img,
+                img,  // Guardamos solo el nombre del archivo de la imagen
                 cantidad: 1
             });
         }
@@ -110,10 +110,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 carritoVacioMensaje.style.display = 'none'; // Ocultar mensaje de carrito vacío
                 // Si hay productos en el carrito, renderizarlos
                 productosEnCarrito.forEach(producto => {
+                    // Reconstruir la ruta de la imagen dependiendo de la página actual
+                    let rutaImagenCompleta = '';
+                    if (window.location.pathname.includes('index.html') || window.location.pathname === "/") {
+                        rutaImagenCompleta = `./img/${producto.img}`;
+                    } else if (window.location.pathname.includes('/pages/')) {
+                        rutaImagenCompleta = `../img/${producto.img}`;
+                    }
+
                     const divProducto = document.createElement("div");
                     divProducto.classList.add("carrito-producto");
                     divProducto.innerHTML = `
-                        <img src="${producto.img}" alt="${producto.nombre}" style="width: 100px;">
+                        <img src="${rutaImagenCompleta}" alt="${producto.nombre}" style="width: 100px;">
                         <div class="carrito-producto-detalles">
                             <div class="fila-producto nombre-producto">
                                 <h4>${producto.nombre}</h4>
